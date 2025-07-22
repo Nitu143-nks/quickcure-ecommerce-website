@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0fdf0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .medicine-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #edfdf5;
+            display: flex;
+            align-items: center;
+        }
+        .medicine-item img {
+            max-width: 150px;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .medicine-item h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #2f855a;
+        }
+        .medicine-item p {
+            margin: 5px 0;
+            color: #4a5568;
+        }
+        .btn {
+            padding: 10px 15px;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn-success {
+            background-color: #38a169;
+        }
+        .btn-primary {
+            background-color: #3182ce;
+        }
+        .btn-purple {
+            background-color: rgb(206, 43, 184);
+        }
+        .no-results {
+            text-align: center;
+            font-size: 16px;
+            color: #e53e3e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center; color: #2f855a;">Search Results</h2>
+        <p style="text-align: center; font-size: 16px; color: #4a5568;">Search Query: <strong>"{{ query }}"</strong></p>
+        <p style="text-align: center; font-size: 16px; color: #4a5568;">Matching Medicines: <strong>{{ medicines|length }}</strong></p>
+
+        {% if medicines %}
+            <ul style="list-style-type: none; padding: 0;">
+                {% for medicine in medicines %}
+                    <li class="medicine-item">
+                        <img src="{{ medicine.img.url }}" alt="{{ medicine.name }}">
+                        <div>
+                            <h3>{{ medicine.name }}</h3>
+                            <p>{{ medicine.desc }}</p>
+                            <p><strong>Price:</strong> ${{ medicine.price }}</p>
+                            <div style="margin-top: 10px;">
+                                <a href="#" class="btn btn-success">Buy Now</a>
+                                <form method="post" action="{% url 'orderlist' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ medicine.id }}">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                                <a href="{% url 'shop' %}" class="btn btn-purple">Go to Store</a>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% elif search_performed %}
+            <p class="no-results">No medicines found for "<strong>{{ query }}</strong>".</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{% url 'shop' %}" class="btn btn-primary">Go to Store</a>
+            </div>
+        {% else %}
+            <p style="text-align: center; font-size: 16px; color: #4a5568;">Use the search bar to find medicines.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

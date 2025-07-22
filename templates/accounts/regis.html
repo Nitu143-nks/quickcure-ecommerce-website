@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <link rel="stylesheet" href="{% static 'fonts/material-design-iconic-font/css/material-design-iconic-font.min.css' %}">
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="{% static 'css/bicky.css' %}">
+</head>
+
+<body>
+    <div class="wrapper" style="background-image: url('{% static 'images/rinku.jpg' %}');">
+        <div class="inner">
+            <div style="display: flex; align-items: stretch; height: 100%;">
+                <div class="image-holder" style="flex: 1; display: flex; align-items: center; justify-content: center; height: auto;">
+                    <img src="{% static 'images/pokti1.png' %}" alt="" style="height: 100%; width: auto; object-fit: cover;">
+                </div>
+                <form action="{% url 'register' %}" method="post" style="flex: 1; padding: 20px; box-sizing: border-box;">
+                    {% csrf_token %}
+                    <h3>Registration </h3>
+            
+                    <!-- Display validation errors -->
+                    {% if errors %}
+                    <ul style="color: red;">
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+            
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <input type="text" name="first_name" placeholder="First Name" class="form-control" required style="flex: 1; padding: 10px;">
+                        <input type="text" name="last_name" placeholder="Last Name" class="form-control" required style="flex: 1; padding: 10px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <input type="text" name="username" placeholder="Username" class="form-control" required style="width: 100%; padding: 10px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <input type="email" name="email" placeholder="Email Address" class="form-control" required style="width: 100%; padding: 10px;">
+                    </div>
+                    <div style="margin-bottom: 15px; position: relative; width: 100%;">
+                        <select name="gender" required 
+                            style="width: 100%; padding: 5px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; color: #333; appearance: none; outline: none; height: 35px;">
+                            <option value="" disabled selected>Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <!-- Custom dropdown icon -->
+                        <i class="zmdi zmdi-caret-down" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 14px; color: #333;"></i>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <input type="password" name="password" placeholder="Password" class="form-control" required style="width: 100%; padding: 10px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" required style="width: 100%; padding: 10px;">
+                    </div>
+                    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; cursor: pointer;">
+                        Register
+                    </button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

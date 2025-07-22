@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <!-- Static Files -->
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <title>ADD PRODUCT</title>
+
+    <style>
+      .form-container {
+        max-width: 350px; /* Limit the width of the form */
+        margin: 0 auto; /* Center the form horizontally */
+      }
+
+      .form-group {
+        margin-bottom: 10px; /* Reduce spacing between fields */
+      }
+
+      .form-group label {
+        font-size: 0.9rem; /* Make labels smaller */
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 5px; /* Compact input padding */
+        font-size: 0.9rem; /* Smaller font size for inputs */
+        height: auto; /* Adjust input height */
+      }
+
+      .btn-primary {
+        font-size: 0.9rem; /* Smaller button font */
+        padding: 5px; /* Compact button padding */
+      }
+
+      h3 {
+        font-size: 1.2rem; /* Smaller heading */
+      }
+
+      p {
+        font-size: 0.9rem; /* Smaller description text */
+      }
+
+      /* New styles for centering the image */
+      .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Make sure the image is vertically centered */
+        flex: 1; /* Allow the image column to grow and take up available space */
+      }
+
+      .img-fluid {
+        max-width: 80%; /* Control image width to avoid it stretching too large */
+        height: auto; /* Maintain aspect ratio */
+      }
+
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Full viewport height */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <!-- Image Section centered -->
+          <div class="col-md-6 image-container">
+            <img src="{% static 'images/undraw_remotely_2j6y.svg' %}" alt="Image" class="img-fluid">
+          </div>
+          <!-- Form Section -->
+          <div class="col-md-6 contents">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div class="mb-4 text-center">
+                  <h3>Add Product</h3>
+                  <p>Welcome back! Please add some product</p>
+                </div>
+                <!-- Display Error Messages -->
+                {% if messages %}
+                  {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-container">
+                    {% for field in form %}
+                      <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                          <div class="text-danger">
+                            {% for error in field.errors %}
+                              <small>{{ error }}</small>
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <button type="submit" class="btn btn-primary">Add Product</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

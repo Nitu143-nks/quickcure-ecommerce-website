@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .details {
+            margin: 20px 0;
+        }
+        .details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .pay-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Payment Summary</h1>
+        </div>
+        <div class="details">
+            <p><strong>Order ID:</strong> {{ orderId }}</p>
+            <p><strong>Total Amount:</strong> ₹{{ final_price }}</p>
+        </div>
+        <div class="pay-button">
+            <!-- Razorpay Payment Integration -->
+            <form action="{% url 'handlerequest' %}" method="POST">
+                <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="{{ razorpay_merchant_id }}" 
+                data-amount="{{ final_price|floatformat:0|add:'00' }}" 
+                data-currency="INR"
+                data-order_id="{{ order_id }}"
+                data-buttontext="Pay Now"
+                data-name="Nitesh Pharma"
+                data-description="Payment for your order"
+                data-image="https://example.com/your_logo.jpg"
+                data-callback_url="https://<your-ngrok-subdomain>.ngrok.io{% url 'handlerequest' %}" <!-- Replace with public URL -->
+                data-prefill.name="{{ request.user.get_full_name }}"
+                data-prefill.email="{{ request.user.email }}"
+                data-theme.color="#28a745">
+            </script>
+            
+    <input type="hidden" custom="Hidden Element" name="hidden"/>
+</form>
+
+        </div>
+    </div>
+</body>
+</html>
